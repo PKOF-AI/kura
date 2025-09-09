@@ -40,9 +40,9 @@ node_modules/
 # Logs
 logs/
 *.log
-
-# Examples directory
-examples/
+examples/**/*.jsonl
+examples/**/*.json
+examples/**/*.db
 
 # Tutorial checkpoints
 site/
