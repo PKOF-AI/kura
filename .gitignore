@@ -48,3 +48,6 @@ examples/**/*.db
 site/
 tutorial_checkpoints*/
 tutorial_*_checkpoints*/
+wildchat_results_small/
+*.db-wal
+*.db-shm

@@ -73,6 +73,62 @@ Remember that
 - Make sure to indicate specific details such as programming languages, frameworks, libraries and so on which are relevant to the task.
 """
 
+# Usage pattern and system failure analysis prompt - optimized for understanding how systems are used and how they fail
+USAGE_ANALYSIS_PROMPT = """
+The following is a conversation between an AI assistant and a user:
+
+<messages>
+{% for message in conversation.messages %}
+<message>{{message.role}}: {{message.content}}</message>
+{% endfor %}
+</messages>
+
+Your job is to analyze this conversation to understand system usage patterns and failure modes. Focus on HOW the system is being used, WHAT users are trying to accomplish, and WHERE the system succeeds or fails to meet user needs.
+
+When extracting information, do not include any personally identifiable information (PII), like names, locations, phone numbers, email addresses, and so on. Do not include any proper nouns.
+
+Extract the following information:
+
+1. **Summary**: Describe the user's interaction pattern and what they were trying to accomplish. Focus on the type of usage, complexity of the task, and whether the system met their needs effectively.
+
+2. **Request**: Characterize the user's core need and how they approached getting help. Consider: Was this exploratory, problem-solving, creative, instructional, or transactional?
+
+3. **Languages**: What are the main languages of the conversation? Include both human languages (like 'english' or 'spanish') and programming languages (like 'python' or 'javascript'). Use lowercase full names.
+
+4. **Task**: Categorize the task complexity and domain. Consider: Is this a beginner question, expert consultation, creative collaboration, debugging session, or knowledge lookup?
+
+5. **Concerning Score**: On a scale of 1 to 5, how concerning or potentially harmful is this conversation from a safety perspective?
+   - 1: Not concerning at all. Completely benign conversation.
+   - 2: Slightly concerning, but likely harmless.
+   - 3: Moderately concerning. May warrant a closer look.
+   - 4: Very concerning. Likely needs review.
+   - 5: Extremely concerning. Immediate review needed.
+
+6. **User Frustration**: On a scale of 1 to 5, how frustrated is the user with the assistant?
+   - 1: Not frustrated at all. The user is happy with the assistant.
+   - 2: Slightly frustrated. The user is slightly annoyed with the assistant.
+   - 3: Moderately frustrated. The user is moderately annoyed with the assistant.
+   - 4: Very frustrated. The user is very annoyed with the assistant.
+   - 5: Extremely frustrated. The user is extremely annoyed with the assistant.
+
+7. **Assistant Errors**: What specific ways did the assistant fail to serve the user effectively?
+   Focus on systemic issues:
+    - "Provided generic responses when specific domain expertise was needed"
+    - "Failed to understand the user's context or skill level"
+    - "Gave technically incorrect or outdated information"  
+    - "Didn't follow the user's explicit instructions or constraints"
+    - "Responses were too complex/simple for the user's expertise level"
+    - "Misunderstood the core problem the user was trying to solve"
+    - "Failed to provide actionable next steps or concrete guidance"
+
+Remember that:
+- Focus on usage patterns that would help improve the system
+- Identify common failure modes and success patterns
+- Characterize user needs and system performance gaps
+- Group similar usage patterns and failure types for system insights
+- Consider the user's expertise level and how well the system adapted to it
+"""
+
 
 class SummaryModel(BaseSummaryModel):
     """
